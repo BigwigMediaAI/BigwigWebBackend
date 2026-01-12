@@ -16,11 +16,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// app.use("/", blogRoutes);
-// app.use("/api/lead", leadRoutes);
-// app.use("/api", jobApplicationRoutes);
-// app.use("/api", jobRoutes);
-// app.use("/api/google", analyticsRoute);
+app.use("/", blogRoutes);
+app.use("/api/lead", leadRoutes);
+app.use("/api", jobApplicationRoutes);
+app.use("/api", jobRoutes);
+app.use("/api/google", analyticsRoute);
 
 // Connect DB and start server
 const PORT = process.env.PORT || 8000;
