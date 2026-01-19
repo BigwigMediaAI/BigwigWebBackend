@@ -16,7 +16,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/", blogRoutes);
+app.use("/blog", blogRoutes);
 app.use("/api/lead", leadRoutes);
 app.use("/api", jobApplicationRoutes);
 app.use("/api", jobRoutes);
