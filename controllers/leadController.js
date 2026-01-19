@@ -30,8 +30,51 @@ exports.sendOTP = async (req, res) => {
     // Send OTP email
     await sendEmail({
       to: email,
-      subject: "Your OTP - Bigwig Media",
-      html: `<p>Hello ${name},</p><p>Your OTP is: <strong>${otp}</strong></p>`,
+      subject: "Your One-Time Password (OTP) – Bigwig Media",
+      html: `
+    <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f5f7fb; padding: 30px;">
+      <div style="max-width: 520px; margin: auto; background: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+
+        <h2 style="color: #111827; margin-bottom: 10px;">Hello ${name},</h2>
+
+        <p style="color: #374151; font-size: 15px; line-height: 1.6;">
+          We received a request to verify your email address.  
+          Please use the One-Time Password (OTP) below to continue.
+        </p>
+
+        <div style="margin: 25px 0; text-align: center;">
+          <span style="
+            display: inline-block;
+            background: #111827;
+            color: #ffffff;
+            font-size: 28px;
+            letter-spacing: 6px;
+            padding: 14px 26px;
+            border-radius: 8px;
+            font-weight: bold;
+          ">
+            ${otp}
+          </span>
+        </div>
+
+        <p style="color: #374151; font-size: 14px;">
+          This OTP is valid for <strong>10 minutes</strong>.  
+          Please do not share it with anyone for security reasons.
+        </p>
+
+        <p style="color: #6b7280; font-size: 13px; margin-top: 20px;">
+          If you did not request this OTP, you can safely ignore this email.
+        </p>
+
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 25px 0;" />
+
+        <p style="font-size: 13px; color: #9ca3af; text-align: center;">
+          © ${new Date().getFullYear()} Bigwig Media. All rights reserved.
+        </p>
+
+      </div>
+    </div>
+  `,
     });
 
     res.status(200).json({ message: "OTP sent to email." });
@@ -63,19 +106,49 @@ exports.verifyOTP = async (req, res) => {
   // Confirmation email to user
   await sendEmail({
     to: email,
-    subject: "We've received your query - Bigwig Media Digital",
+    subject: "We’ve Received Your Query – Bigwig Media Digital",
     html: `
-      <div style="font-family: Arial; max-width: 600px; margin: auto;">
-        <h2>Hello ${data.name},</h2>
-        <p>Thank you for contacting <strong>Bigwig Media Digital</strong>.</p>
-        <p>We will connect with you within 24–48 hours.</p>
+    <div style="font-family: Arial, Helvetica, sans-serif; background-color: #f5f7fb; padding: 30px;">
+      <div style="max-width: 560px; margin: auto; background: #ffffff; border-radius: 10px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+
+        <h2 style="color: #111827; margin-bottom: 12px;">
+          Hello ${data.name},
+        </h2>
+
+        <p style="color: #374151; font-size: 15px; line-height: 1.6;">
+          Thank you for reaching out to <strong>Bigwig Media Digital</strong>.
+          We’ve successfully received your query and appreciate your interest in our services.
+        </p>
+
+        <p style="color: #374151; font-size: 15px; line-height: 1.6;">
+          Our team is currently reviewing your request and one of our representatives
+          will get in touch with you within <strong>24–48 hours</strong>.
+        </p>
+
+        <p style="color: #374151; font-size: 15px; line-height: 1.6;">
+          If you have any additional information to share in the meantime, feel free to reply
+          to this email.
+        </p>
+
+        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
+
+        <p style="font-size: 13px; color: #6b7280;">
+          Best regards,<br />
+          <strong>Bigwig Media Digital Team</strong>
+        </p>
+
+        <p style="font-size: 12px; color: #9ca3af; text-align: center; margin-top: 20px;">
+          © ${new Date().getFullYear()} Bigwig Media Digital. All rights reserved.
+        </p>
+
       </div>
-    `,
+    </div>
+  `,
   });
 
   // HR internal notification
   await sendEmail({
-    to: "hsinghkhalsa980@gmail.com",
+    to: "chandan@bigwigmedia.in",
     subject: "New Lead Captured - Bigwig Media",
     html: `
       <h3>New Lead Details</h3>
@@ -128,7 +201,7 @@ exports.getLeadsLast10Days = async (req, res) => {
     const last10Days = Array.from({ length: 10 }, (_, i) =>
       moment()
         .subtract(9 - i, "days")
-        .format("YYYY-MM-DD")
+        .format("YYYY-MM-DD"),
     );
 
     const result = last10Days.map((date) => {
