@@ -6,6 +6,7 @@ const jobApplicationRoutes = require("./routes/jobApplicationRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const analyticsRoute = require("./routes/analyticsRoute");
 const subscribeRoute = require("./routes/subscriberRoutes");
+const newsletter = require("./routes/newletter.route");
 
 require("dotenv").config();
 
@@ -23,6 +24,7 @@ app.use("/api", jobApplicationRoutes);
 app.use("/api", jobRoutes);
 app.use("/api/google", analyticsRoute);
 app.use("/subscriber", subscribeRoute);
+app.use("/newsletter", newsletter);
 
 // Connect DB and start server
 const PORT = process.env.PORT || 8000;
