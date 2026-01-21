@@ -78,6 +78,49 @@ const sendNewsletter = async (req, res) => {
   }
 };
 
+/**
+ * Get all newsletters (Admin)
+ */
+const getAllNewsletters = async (req, res) => {
+  try {
+    const newsletters = await Newsletter.find()
+      .sort({ createdAt: -1 })
+      .select("-__v"); // optional cleanup
+
+    res.status(200).json({
+      count: newsletters.length,
+      data: newsletters,
+    });
+  } catch (error) {
+    console.error("Get Newsletters Error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+/**
+ * Delete newsletter (Admin)
+ */
+const deleteNewsletter = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const newsletter = await Newsletter.findByIdAndDelete(id);
+
+    if (!newsletter) {
+      return res.status(404).json({ error: "Newsletter not found" });
+    }
+
+    res.status(200).json({
+      message: "Newsletter deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete Newsletter Error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 module.exports = {
   sendNewsletter,
+  getAllNewsletters,
+  deleteNewsletter,
 };
