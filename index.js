@@ -5,6 +5,7 @@ const leadRoutes = require("./routes/leadRoutes");
 const jobApplicationRoutes = require("./routes/jobApplicationRoutes");
 const jobRoutes = require("./routes/jobRoutes");
 const analyticsRoute = require("./routes/analyticsRoute");
+const subscribeRoute = require("./routes/subscriberRoutes");
 
 require("dotenv").config();
 
@@ -21,6 +22,7 @@ app.use("/api/lead", leadRoutes);
 app.use("/api", jobApplicationRoutes);
 app.use("/api", jobRoutes);
 app.use("/api/google", analyticsRoute);
+app.use("/subscriber", subscribeRoute);
 
 // Connect DB and start server
 const PORT = process.env.PORT || 8000;
